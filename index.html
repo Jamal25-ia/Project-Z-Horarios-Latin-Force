@@ -68,8 +68,8 @@
                                 <option value="12">12 meses</option>
                             </select>
                         </div>
+                        <button id="scrollToCurrent" class="btn btn-success mb-2">Actual</button>
                         <ul id="resultados" class="list-group mb-3"></ul>
-                        <button id="scrollToCurrent" class="btn btn-primary w-100 mb-2">Ir a la Fecha Actual</button>
                         <button id="cambiarPagina" class="btn btn-secondary w-100">Volver</button>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
             // Añadir evento para desplazarse a la fecha actual
             document.getElementById('scrollToCurrent').addEventListener('click', function() {
                 if (currentListItem) {
-                    currentListItem.scrollIntoView({ behavior: 'smooth' });
+                    currentListItem.scrollIntoView({ behavior: 'smooth', block: 'center'});
                 }
             });
         }
