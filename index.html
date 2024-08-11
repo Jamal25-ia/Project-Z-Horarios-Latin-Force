@@ -95,7 +95,7 @@
             for (let i = 1; i <= totalFechas; i++) {
                 const nextDate = new Date(startDate.getTime() + (horasIntervalo * i * 60 * 60 * 1000));
                 const formattedDate = nextDate.toLocaleString('es-GT', {
-                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true
                 });
 
                 const listItem = document.createElement('li');
