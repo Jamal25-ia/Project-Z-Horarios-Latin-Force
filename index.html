@@ -30,11 +30,14 @@
         }
         .card-header {
             background-image: url('https://steamuserimages-a.akamaihd.net/ugc/607223562240237709/A517C9580117F75CD4A6D9DF6ADA75C297578922/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%2523000000&letterbox=false');
-            background-size: cover; /* Para que la imagen cubra todo el espacio */
+            background-size: contain; /* Cambiado de cover a contain */
             background-position: center; /* Centrar la imagen */
-            color: whites; /* Color del texto del encabezado */
-            padding:110px; /* Espacio interior en el encabezado */
+            background-repeat: no-repeat; /* Evitar que la imagen se repita */
+            color: white; /* Corregido de 'whites' a 'white' */
+            min-height: 250px; /* Altura mínima para asegurar que la imagen se muestre completa */
+            padding: 20px; /* Espacio interior ajustado */
         }
+
     </style>
 </head>
 <body>
@@ -44,7 +47,7 @@
             <div class="col-md-10"> <!-- Cambiado de col-md-6 a col-md-8 -->
                 <div class="card">
                     <div class="card-header text-center">
-                        <h2 style="position: relative; top: -50px;">Horario de Respawn de objetos</h2>
+                        <h4 style="position: relative; top: 200px;">Horario de Respawn de objetos</h4>
                     </div>
                     <div class="card-body">
                         <p><strong>Fecha de inicio:</strong> 7 de agosto de 2024, 10 AM</p>
