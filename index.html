@@ -94,27 +94,37 @@
             const horasIntervalo = 36;
             const resultados = document.getElementById('resultados');
             resultados.innerHTML = ''; // Limpiar resultados anteriores
-
+        
             const now = new Date(); // Fecha y hora actual
             let currentListItem = null;
-
+        
             // Obtener el número de meses a mostrar
             const numMeses = parseInt(document.getElementById('numMeses').value);
             const totalFechas = numMeses * 30; // Aproximadamente 30 días por mes
-
+        
             for (let i = 1; i <= totalFechas; i++) {
                 const nextDate = new Date(startDate.getTime() + (horasIntervalo * i * 60 * 60 * 1000));
                 
                 // Restar 1 día a la fecha
                 nextDate.setDate(nextDate.getDate() - 1);
-
-                const formattedDate = nextDate.toLocaleString('es-GT', {
-                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true
-                });
-
+        
+                // Convertir a formato de 12 horas y revertir AM/PM
+                let hours = nextDate.getHours();
+                let minutes = nextDate.getMinutes();
+                const isPM = hours >= 12;
+                hours = hours % 12;
+                hours = hours ? hours : 12; // El '0' debe ser '12'
+                const ampm = isPM ? 'PM' : 'AM';
+                const invertedAmpm = isPM ? 'AM' : 'PM';
+                const formattedTime = `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${invertedAmpm}`;
+        
+                const formattedDate = nextDate.toLocaleDateString('es-GT', {
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                }) + `, ${formattedTime}`;
+        
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item';
-
+        
                 // Resaltar en verde el fondo si la fecha coincide (ignorando la hora)
                 if (
                     now.getDate() === nextDate.getDate() &&
@@ -124,283 +134,30 @@
                     listItem.classList.add('bg-success');
                     currentListItem = listItem; // Guardar el elemento actual
                 }
-
-                //listItem.textContent = `Fecha ${i}: ${formattedDate}`;
+        
                 listItem.textContent = `${formattedDate}`;
                 resultados.appendChild(listItem);
             }
-
+        
             // Añadir evento para desplazarse a la fecha actual
             document.getElementById('scrollToCurrent').addEventListener('click', function() {
                 if (currentListItem) {
-                    currentListItem.scrollIntoView({ behavior: 'smooth', block: 'center'});
+                    currentListItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             });
         }
-
+        
         document.getElementById('pais').addEventListener('change', calcularFechas);
         document.getElementById('numMeses').addEventListener('change', calcularFechas);
         document.getElementById('cambiarPagina').addEventListener('click', function() {
             window.location.href = 'Projectz.html';
         });
+        
+        window.onload = calcularFechas; // Calcular fechas al cargar la página
+
 
         window.onload = calcularFechas; // Calcular fechas al cargar la página
     </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado Proyect Z</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: black;
-            color: white;
-        }
-        .card {
-            background-color: #333; /* Fondo de la tarjeta */
-            padding: 20px; /* Aumentar el espacio interior de la tarjeta */
-        }
-        .btn-secondary {
-            background-color: #555; /* Fondo del botón */
-            border-color: #555;
-        }
-        .list-group-item {
-            color: black; /* Color del texto de los elementos de la lista */
-        }
-        .list-group-item.bg-success {
-            background-color: green; /* Fondo verde para la fecha actual */
-            color: white; /* Color de texto blanco para contraste */
-        }
-        .col-md-8 {
-            max-width: 1000px; /* Aumentar el ancho máximo de la tarjeta */
-        }
-        .card-header {
-            background-image: url('descarga (1).jpeg'); /* Cambia 'tu-imagen-url.jpg' por la URL de tu imagen */
-            background-size: cover; /* Para que la imagen cubra todo el espacio */
-            background-position: top; /* Centrar la imagen */
-            color: whites; /* Color del texto del encabezado */
-            padding:70px; /* Espacio interior en el encabezado */
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-9"> 
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h2>Respawn de objetos</h2>
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Fecha de inicio:</strong> 7 de agosto de 2024, 10 AM</p>
-                        <div class="mb-3">
-                            <label for="pais" class="form-label">Selecciona el país:</label>
-                            <select id="pais" class="form-select">
-                                <option value="-05:00">Guatemala</option>
-                                <option value="-03:00">Venezuela</option>
-                            </select>
-                        </div>
-                        <ul id="resultados" class="list-group mb-3"></ul>
-                        <button id="scrollToCurrent" class="btn btn-primary w-100 mb-2">Ir a la Fecha Actual</button>
-                        <button id="cambiarPagina" class="btn btn-secondary w-100">Volver</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function calcularFechas() {
-            const timezone = document.getElementById('pais').value;
-            const startDate = new Date(`2024-08-07T10:00:00${timezone}`);
-            const horasIntervalo = 36;
-            const resultados = document.getElementById('resultados');
-            resultados.innerHTML = ''; // Limpiar resultados anteriores
-
-            const now = new Date(); // Fecha y hora actual
-            let currentListItem = null;
-
-            for (let i = 1; i <= 10; i++) {
-                const nextDate = new Date(startDate.getTime() + (horasIntervalo * i * 60 * 60 * 1000));
-                const formattedDate = nextDate.toLocaleString('es-GT', {
-                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                });
-
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item';
-
-                // Resaltar en verde el fondo si la fecha coincide (ignorando la hora)
-                if (
-                    now.getDate() === nextDate.getDate() &&
-                    now.getMonth() === nextDate.getMonth() &&
-                    now.getFullYear() === nextDate.getFullYear()
-                ) {
-                    listItem.classList.add('bg-success');
-                    currentListItem = listItem; // Guardar el elemento actual
-                }
-
-                listItem.textContent = `Fecha ${i}: ${formattedDate}`;
-                resultados.appendChild(listItem);
-            }
-
-            // Añadir evento para desplazarse a la fecha actual
-            document.getElementById('scrollToCurrent').addEventListener('click', function() {
-                if (currentListItem) {
-                    currentListItem.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        }
-
-        document.getElementById('pais').addEventListener('change', calcularFechas);
-        document.getElementById('cambiarPagina').addEventListener('click', function() {
-            window.location.href = 'Projectz.html';
-        });
-
-        window.onload = calcularFechas; // Calcular fechas al cargar la página
-    </script>
-
-</body>
-</html>
--->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado Proyect Z</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h3>Calculadora de Fechas</h3>
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Fecha de inicio:</strong> 7 de agosto de 2024, 10 AM</p>
-                        <div class="mb-3">
-                            <label for="pais" class="form-label">Selecciona el país:</label>
-                            <select id="pais" class="form-select">
-                                <option value="-05:00">Guatemala</option>
-                                <option value="-03:00">Venezuela</option>
-                            </select>
-                        </div>
-                        <ul id="resultados" class="list-group mb-3"></ul>
-                        <button id="cambiarPagina" class="btn btn-secondary w-100">Volver</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function calcularFechas() {
-            const timezone = document.getElementById('pais').value;
-            const startDate = new Date(`2024-08-07T10:00:00${timezone}`);
-            const horasIntervalo = 36;
-            const resultados = document.getElementById('resultados');
-            resultados.innerHTML = ''; // Limpiar resultados anteriores
-
-            const now = new Date(); // Fecha y hora actual
-
-            for (let i = 1; i <= 10; i++) {
-                const nextDate = new Date(startDate.getTime() + (horasIntervalo * i * 60 * 60 * 1000));
-                const formattedDate = nextDate.toLocaleString('es-GT', {
-                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                });
-
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item';
-
-                if (now.toLocaleString() === nextDate.toLocaleString()) {
-                    listItem.classList.add('text-success', 'fw-bold'); // Resaltar la fecha actual en verde
-                }
-
-                listItem.textContent = `Fecha ${i}: ${formattedDate}`;
-                resultados.appendChild(listItem);
-            }
-        }
-
-        document.getElementById('pais').addEventListener('change', calcularFechas);
-        document.getElementById('cambiarPagina').addEventListener('click', function() {
-            window.location.href = 'Projectz.html';
-        });
-
-        window.onload = calcularFechas; // Calcular fechas al cargar la página
-    </script>
-
-</body>
-</html>
--->
