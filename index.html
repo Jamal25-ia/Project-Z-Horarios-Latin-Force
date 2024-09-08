@@ -88,7 +88,7 @@
     <script>
         function calcularFechas() {
             const timezone = document.getElementById('pais').value;
-            const startDate = new Date(`2024-08-07T10:00:00${timezone}`);
+            const startDate = new Date(`2024-09-07T22:00:00${timezone}`);
             const horasIntervalo = 36;
             const resultados = document.getElementById('resultados');
             resultados.innerHTML = ''; // Limpiar resultados anteriores
@@ -100,12 +100,17 @@
             const numMeses = parseInt(document.getElementById('numMeses').value);
             const totalFechas = numMeses * 30; // Aproximadamente 30 días por mes
         
-            for (let i = 1; i <= totalFechas; i++) {
-                const nextDate = new Date(startDate.getTime() + (horasIntervalo * i * 60 * 60 * 1000));
-                
-                // Restar 1 día a la fecha
-                nextDate.setDate(nextDate.getDate() - 1);
+            // Inicializar la variable para el cálculo progresivo
+            let ultimaFecha = new Date(startDate);
         
+            for (let i = 1; i <= totalFechas; i++) {
+                // Calcular la nueva fecha sumando el intervalo a la última fecha
+            const nextDate = new Date(ultimaFecha.getTime() + (horasIntervalo * 60 *    60 * 1000));
+
+                
+                // Actualizar ultimaFecha para la siguiente iteración
+                ultimaFecha = new Date(nextDate);
+    
                 // Convertir a formato de 12 horas y revertir AM/PM
                 let hours = nextDate.getHours();
                 let minutes = nextDate.getMinutes();
@@ -113,11 +118,10 @@
                 hours = hours % 12;
                 hours = hours ? hours : 12; // El '0' debe ser '12'
                 const ampm = isPM ? 'PM' : 'AM';
-                const invertedAmpm = isPM ? 'AM' : 'PM';
-                const formattedTime = `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${invertedAmpm}`;
+                const formattedTime = `${hours}:${minutes < 10 ? '0' + minutes : minutes}    ${ampm}`;
         
                 const formattedDate = nextDate.toLocaleDateString('es-GT', {
-                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                    year: 'numeric', month: 'long', day: 'numeric',
                 }) + `, ${formattedTime}`;
         
                 const listItem = document.createElement('li');
@@ -138,12 +142,13 @@
             }
         
             // Añadir evento para desplazarse a la fecha actual
-            document.getElementById('scrollToCurrent').addEventListener('click', function() {
+            document.getElementById('scrollToCurrent').addEventListener('click', function   () {
                 if (currentListItem) {
-                    currentListItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                currentListItem.scrollIntoView({ behavior: 'smooth', block: 'center'    });
                 }
             });
         }
+
         
         document.getElementById('pais').addEventListener('change', calcularFechas);
         document.getElementById('numMeses').addEventListener('change', calcularFechas);
@@ -151,9 +156,6 @@
             window.location.href = 'Projectz.html';
         });
         
-        window.onload = calcularFechas; // Calcular fechas al cargar la página
-
-
         window.onload = calcularFechas; // Calcular fechas al cargar la página
     </script>
 
