@@ -38,17 +38,13 @@
         .col-md-8 {
             max-width: 1000px; /* Aumentar el ancho máximo de la tarjeta */
         }
-        .card-header {
-            background-image: url('https://steamuserimages-a.akamaihd.net/ugc/607223562240237709/A517C9580117F75CD4A6D9DF6ADA75C297578922/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%2523000000&letterbox=false');
-            background-size: contain; /* Cambiado de cover a contain */
-            background-position: center; /* Centrar la imagen */
-            background-repeat: no-repeat; /* Evitar que la imagen se repita */
-            color: white; /* Corregido de 'whites' a 'white' */
-            min-height: 250px; /* Altura mínima para asegurar que la imagen se muestre completa */
-            padding: 20px; /* Espacio interior ajustado */
-        }
 
     </style>
+
+  <link href="Atropos.css" rel="stylesheet">
+  <!-- Cargar AtroposJS Online-->
+  <script src="https://cdn.jsdelivr.net/npm/atropos@2.0.2/atropos.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/atropos@2.0.2/atropos.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -56,8 +52,26 @@
         <div class="row justify-content-center">
             <div class="col-md-10"> <!-- Cambiado de col-md-6 a col-md-8 -->
                 <div class="card">
-                    <div class="card-header text-center">
-                        <h4 style="position: relative; top: 90px;">Respawn de objetos</h4>
+                    <div class="container">
+                      <atropos-component>
+                        <div class="atropos">
+                          <div class="atropos-scale">
+                            <div class="atropos-rotate">
+                              <div class="atropos-inner">
+                                <img class="atropos-spacer" src="https://atroposjs.com/images/header/atropos-bg.svg" alt="stars">
+                                <img data-atropos-offset="-4.5" src="https://steamuserimages-a.akamaihd.net/ugc/607223562240237709/A517C9580117F75CD4A6D9DF6ADA75C297578922/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%2523000000&letterbox=false" alt="stars">
+                  
+                                <img data-atropos-offset="2" src="https://pzwiki.net/w/images/thumb/2/2a/Spiffoguard_transparent1.png/206px-Spiffoguard_transparent1.png" alt="forest" style="display: flex; justify-content: center; position: absolute; bottom: 50px; width: 18%;margin-left: 300px;">
+                  
+                  
+                                <img data-atropos-offset="3" src="Titulo.png" alt="Titulo" style="position: absolute; top: -90px;">>
+                  
+                              </div>
+                              <div class="atropos-shadow"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </atropos-component>
                     </div>
                     <div class="card-body">
                         <!--<p><strong>Fecha de inicio:</strong> 7 de agosto de 2024, 10 AM</p>-->
@@ -163,7 +177,36 @@
 
 
 
+<!--                    Atros TITULO                --->
 
+  <script>
+    // Asegurarse de que el script de Atropos ha sido cargado antes de ejecutarlo
+    window.addEventListener('load', () => {
+      class AtroposComponent extends HTMLElement {
+        constructor() {
+          super();
+        }
+
+        connectedCallback() {
+          this.atropos = new Atropos({
+            el: this.querySelector('.atropos'),
+            onEnter() {
+            },
+            onLeave() {
+            },
+            onRotate(x, y) {
+            }
+          });
+        }
+
+        disconnectedCallback() {
+          this.atropos.destroy();
+        }
+      }
+
+      customElements.define('atropos-component', AtroposComponent);
+    });
+  </script>
 
 
 
